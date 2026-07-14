@@ -1,0 +1,495 @@
+/* The supplied stylesheet from React That Sticks, grown up: the same cream
+   page, ink borders, and yellow accents, extended to production polish. */
+
+:root {
+  --ink: #18212f;
+  --muted: #5d6878;
+  --cream: #fff9ea;
+  --panel: #ffffff;
+  --yellow: #ffd94d;
+  --orange: #9b4d00;
+  --green: #17653a;
+  --green-soft: #dff2e5;
+  --red: #a13a28;
+  --red-soft: #f6ddd7;
+  --shadow: 5px 5px 0 rgba(24, 33, 47, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Avenir Next", Avenir, "Trebuchet MS", Arial, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* ---------- header ---------- */
+
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--cream);
+  border-bottom: 2px solid var(--ink);
+}
+
+.site-head-inner {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.site-head nav {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.site-head nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--ink);
+  text-decoration: none;
+  border: 2px solid transparent;
+}
+
+.site-head nav a:hover {
+  border-color: var(--ink);
+}
+
+.site-head nav a.active {
+  background: var(--yellow);
+  border-color: var(--ink);
+}
+
+.site-head nav .count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.3rem;
+  height: 1.3rem;
+  padding: 0 0.25rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--cream);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+/* ---------- layout ---------- */
+
+main {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.page-intro {
+  margin-bottom: 1.5rem;
+}
+
+.page-intro h1,
+.detail h1 {
+  margin: 0 0 0.25rem;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.page-intro p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.site-foot {
+  border-top: 2px solid var(--ink);
+  background: var(--panel);
+}
+
+.site-foot p {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding: 1.1rem 1.25rem 1.3rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.site-foot a {
+  color: var(--orange);
+  font-weight: 600;
+}
+
+/* ---------- cards ---------- */
+
+.forecast-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+.forecast-card {
+  padding: 1rem 1.1rem;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.forecast-topline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.forecast-category {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--orange);
+}
+
+.forecast-card h2 {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.forecast-card h2 a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.forecast-card h2 a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--yellow);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
+}
+
+.forecast-odds {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 0 0.75rem;
+  font-weight: 700;
+}
+
+.forecast-odds span {
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.forecast-odds .yes {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.forecast-odds .no {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+.forecast-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.forecast-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: var(--panel);
+  white-space: nowrap;
+}
+
+.badge.resolved {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.badge.closing {
+  background: var(--yellow);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- buttons ---------- */
+
+button {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--yellow);
+  box-shadow: 0 2px 0 rgba(24, 33, 47, 0.35);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  filter: brightness(1.04);
+}
+
+button:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 0 rgba(24, 33, 47, 0.35);
+}
+
+button.watch {
+  background: var(--panel);
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.9rem;
+}
+
+button.watch.watching {
+  background: var(--yellow);
+}
+
+button.watch.watching::before {
+  content: "✓ ";
+}
+
+/* ---------- detail page ---------- */
+
+.crumbs {
+  margin: 0 0 1.25rem;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+.crumbs a {
+  color: var(--orange);
+  font-weight: 600;
+}
+
+.detail h1 {
+  margin: 0.4rem 0 0.9rem;
+  font-size: 1.6rem;
+}
+
+.detail-odds span {
+  font-size: 1.05rem;
+}
+
+/* ---------- prediction ticket ---------- */
+
+.ticket {
+  margin-top: 1.75rem;
+  padding: 1.25rem 1.25rem 1.4rem;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.ticket-title {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+}
+
+.choice-group {
+  margin: 0 0 1.1rem;
+  padding: 0;
+  border: 0;
+}
+
+.choice-group legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.choice-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.choice {
+  display: grid;
+  place-items: center;
+  padding: 0.6rem;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: var(--panel);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.choice.on {
+  background: var(--yellow);
+  box-shadow: inset 0 0 0 2px var(--panel);
+}
+
+.choice:has(input:focus-visible) {
+  outline: 3px solid #f6c453;
+  outline-offset: 2px;
+}
+
+.confidence {
+  display: block;
+  margin: 0 0 1.2rem;
+  font-weight: 600;
+}
+
+.confidence input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  accent-color: var(--ink);
+}
+
+.ticket-error {
+  margin: 0 0 0.9rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 8px;
+  background: var(--red-soft);
+  color: var(--red);
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.saved-note p {
+  margin: 0 0 0.75rem;
+  color: var(--ink);
+}
+
+.saved-note p.ticket-title {
+  color: var(--green);
+}
+
+/* ---------- states ---------- */
+
+.skeleton-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.skeleton-card {
+  height: 8.5rem;
+  border: 2px solid rgba(24, 33, 47, 0.12);
+  border-radius: 10px;
+  background: linear-gradient(
+    100deg,
+    rgba(24, 33, 47, 0.05) 40%,
+    rgba(24, 33, 47, 0.1) 50%,
+    rgba(24, 33, 47, 0.05) 60%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.skeleton-card.tall {
+  height: 22rem;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-card {
+    animation: none;
+  }
+}
+
+.error-panel {
+  padding: 1.1rem 1.25rem;
+  border: 2px solid var(--red);
+  border-radius: 10px;
+  background: var(--red-soft);
+}
+
+.error-panel p {
+  margin: 0 0 0.4rem;
+}
+
+.error-panel .error-title {
+  font-weight: 700;
+  color: var(--red);
+}
+
+.error-panel a {
+  color: var(--orange);
+  font-weight: 600;
+}
+
+.empty-note {
+  padding: 1.1rem 1.25rem;
+  border: 2px dashed var(--ink);
+  border-radius: 10px;
+  background: #fff2bf;
+}
+
+.empty-note p {
+  margin: 0;
+}
+
+.empty-note a {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+/* ---------- focus ---------- */
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 3px solid #f6c453;
+  outline-offset: 2px;
+}
