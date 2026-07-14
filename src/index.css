@@ -151,7 +151,7 @@ main {
 .forecast-card {
   padding: 1rem 1.1rem;
   border: 2px solid var(--ink);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--panel);
   box-shadow: var(--shadow);
 }
@@ -320,7 +320,7 @@ button.watch.watching::before {
   margin-top: 1.75rem;
   padding: 1.25rem 1.25rem 1.4rem;
   border: 2px solid var(--ink);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--panel);
   box-shadow: var(--shadow);
 }
@@ -421,7 +421,7 @@ button.watch.watching::before {
 .skeleton-card {
   height: 8.5rem;
   border: 2px solid rgba(24, 33, 47, 0.12);
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(
     100deg,
     rgba(24, 33, 47, 0.05) 40%,
@@ -451,7 +451,7 @@ button.watch.watching::before {
 .error-panel {
   padding: 1.1rem 1.25rem;
   border: 2px solid var(--red);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--red-soft);
 }
 
@@ -472,7 +472,7 @@ button.watch.watching::before {
 .empty-note {
   padding: 1.1rem 1.25rem;
   border: 2px dashed var(--ink);
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff2bf;
 }
 
