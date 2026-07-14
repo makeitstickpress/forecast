@@ -7,7 +7,7 @@ If you have read the book, you will recognize every line.
 
 **Run it in your browser, nothing to install:**
 [stackblitz.com/github/makeitstickpress/forecast](https://stackblitz.com/github/makeitstickpress/forecast)
-(if it stalls while loading, allow StackBlitz through your ad blocker — its in-browser runtime is often mistaken for a tracker)
+(if it stalls while loading, turn off your ad blocker for stackblitz.com — its in-browser runtime is often mistaken for a tracker)
 
 **Run it locally:**
 
