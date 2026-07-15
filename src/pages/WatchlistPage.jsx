@@ -4,10 +4,10 @@ import { useWatch } from "../WatchContext";
 import ForecastCard from "../components/ForecastCard";
 
 export default function WatchlistPage() {
-  const { forecasts, status } = useForecasts();
+  const [status, forecasts] = useForecasts();
   const { watchedIds } = useWatch();
 
-  const watched = forecasts.filter((forecast) =>
+  const watched = (forecasts || []).filter((forecast) =>
     watchedIds.includes(forecast.id)
   );
 

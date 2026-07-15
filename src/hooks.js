@@ -1,76 +1,81 @@
 import { useEffect, useState } from "react";
 
-// Chapter 14: the whole loading pattern, wrapped in a custom Hook.
+// Chapter 14: the whole loading pattern from Chapters 11 and 12, wrapped in a
+// custom Hook. It returns [status, data], the same shape as useState's pair.
 export function useForecasts() {
-  const [forecasts, setForecasts] = useState([]);
   const [status, setStatus] = useState("loading");
+  const [forecasts, setForecasts] = useState(null);
 
   useEffect(() => {
     let ignore = false;
 
-    async function load() {
-      try {
-        const response = await fetch("/api/forecasts");
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
+    fetch("/api/forecasts")
+      .then((res) => {
+        if (!res.ok) throw new Error("Load failed");
+        return res.json();
+      })
+      .then((data) => {
         if (!ignore) {
           setForecasts(data);
           setStatus("ready");
         }
-      } catch {
-        if (!ignore) setStatus("error");
-      }
-    }
+      })
+      .catch(() => {
+        if (!ignore) {
+          setStatus("error");
+        }
+      });
 
-    load();
     return () => {
       ignore = true;
     };
   }, []);
 
-  return { forecasts, status };
+  return [status, forecasts];
 }
 
 export function useForecast(forecastId) {
-  const [forecast, setForecast] = useState(null);
   const [status, setStatus] = useState("loading");
+  const [detail, setDetail] = useState(null);
 
   useEffect(() => {
     let ignore = false;
     setStatus("loading");
-    setForecast(null);
 
-    async function load() {
-      try {
-        const response = await fetch(`/api/forecast/${forecastId}`);
-        if (response.status === 404) throw new Error("missing");
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
+    fetch("/api/forecast/" + forecastId)
+      .then((res) => {
+        if (!res.ok) throw new Error("Load failed");
+        return res.json();
+      })
+      .then((data) => {
         if (!ignore) {
-          setForecast(data);
+          setDetail(data);
           setStatus("ready");
         }
-      } catch {
-        if (!ignore) setStatus("error");
-      }
-    }
+      })
+      .catch(() => {
+        if (!ignore) {
+          setStatus("error");
+        }
+      });
 
-    load();
     return () => {
       ignore = true;
     };
   }, [forecastId]);
 
-  return { forecast, status };
+  return [status, detail];
 }
 
 // Chapter 14 again: useCountdown, driving the closing clock on a detail page.
-export function useCountdown(secondsAtStart) {
-  const [secondsLeft, setSecondsLeft] = useState(secondsAtStart);
-  const finished = secondsLeft <= 0;
+export function useCountdown(start) {
+  const [secondsLeft, setSecondsLeft] = useState(start);
+  const finished = secondsLeft === 0;
 
   useEffect(() => {
-    if (finished) return;
+    if (finished) {
+      return;
+    }
 
     const intervalId = setInterval(() => {
       setSecondsLeft((current) => Math.max(0, current - 1));
@@ -79,5 +84,5 @@ export function useCountdown(secondsAtStart) {
     return () => clearInterval(intervalId);
   }, [finished]);
 
-  return { secondsLeft, finished };
+  return secondsLeft;
 }

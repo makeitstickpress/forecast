@@ -5,7 +5,7 @@ import PredictionTicket from "../components/PredictionTicket";
 
 export default function ForecastPage() {
   const { forecastId } = useParams();
-  const { forecast, status } = useForecast(forecastId);
+  const [status, forecast] = useForecast(forecastId);
 
   if (status === "loading") {
     return (
@@ -75,7 +75,8 @@ function ClosingClock({ closesAt }) {
     0,
     Math.floor((closesAt - Date.now()) / 1000)
   );
-  const { secondsLeft, finished } = useCountdown(secondsAtStart);
+  const secondsLeft = useCountdown(secondsAtStart);
+  const finished = secondsLeft === 0;
 
   if (finished) return <span className="badge closing">Closed</span>;
 

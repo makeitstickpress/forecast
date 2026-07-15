@@ -1,36 +1,40 @@
 import { initialTicket, predictionReducer } from "./predictionReducer";
 
-test("choosing a side keeps the rest of the ticket", () => {
+test("choosing an outcome keeps the rest of the ticket", () => {
   const next = predictionReducer(initialTicket, {
-    type: "chose_side",
-    choice: "Yes",
+    type: "chose_outcome",
+    outcome: "Yes",
   });
 
-  expect(next.choice).toBe("Yes");
+  expect(next.outcome).toBe("Yes");
   expect(next.confidence).toBe(50);
   expect(next.status).toBe("editing");
 });
 
 test("a full submit cycle: editing, saving, saved", () => {
-  let state = predictionReducer(initialTicket, {
-    type: "chose_side",
-    choice: "No",
+  let ticket = predictionReducer(initialTicket, {
+    type: "chose_outcome",
+    outcome: "No",
   });
-  state = predictionReducer(state, { type: "set_confidence", confidence: 75 });
-  state = predictionReducer(state, { type: "submitted" });
-  expect(state.status).toBe("saving");
+  ticket = predictionReducer(ticket, {
+    type: "changed_confidence",
+    confidence: 75,
+  });
+  ticket = predictionReducer(ticket, { type: "submitted" });
+  expect(ticket.status).toBe("saving");
 
-  state = predictionReducer(state, { type: "save_succeeded" });
-  expect(state.status).toBe("saved");
-  expect(state.choice).toBe("No");
-  expect(state.confidence).toBe(75);
+  ticket = predictionReducer(ticket, { type: "save_succeeded" });
+  expect(ticket.status).toBe("saved");
+  expect(ticket.outcome).toBe("No");
+  expect(ticket.confidence).toBe(75);
 });
 
-test("reset returns the initial ticket", () => {
-  const dirty = { choice: "Yes", confidence: 90, status: "saved" };
-  expect(predictionReducer(dirty, { type: "reset" })).toEqual(initialTicket);
+test("cleared returns the initial ticket", () => {
+  const dirty = { outcome: "Yes", confidence: 90, status: "saved" };
+  expect(predictionReducer(dirty, { type: "cleared" })).toEqual(initialTicket);
 });
 
-test("unknown actions throw", () => {
-  expect(() => predictionReducer(initialTicket, { type: "bogus" })).toThrow();
+test("an unknown action leaves the ticket unchanged", () => {
+  const ticket = { outcome: "Yes", confidence: 90, status: "editing" };
+  expect(predictionReducer(ticket, { type: "bogus" })).toBe(ticket);
 });

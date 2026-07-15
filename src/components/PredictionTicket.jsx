@@ -5,24 +5,24 @@ export default function PredictionTicket({ forecast }) {
   const [ticket, dispatch] = useReducer(predictionReducer, initialTicket);
   const saving = ticket.status === "saving";
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
     dispatch({ type: "submitted" });
-    try {
-      const response = await fetch("/api/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          forecastId: forecast.id,
-          choice: ticket.choice,
-          confidence: ticket.confidence,
-        }),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-      dispatch({ type: "save_succeeded" });
-    } catch {
-      dispatch({ type: "save_failed" });
-    }
+
+    fetch("/api/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        forecastId: forecast.id,
+        outcome: ticket.outcome,
+        confidence: ticket.confidence,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Save failed");
+        dispatch({ type: "save_succeeded" });
+      })
+      .catch(() => dispatch({ type: "save_failed" }));
   }
 
   if (ticket.status === "saved") {
@@ -30,10 +30,10 @@ export default function PredictionTicket({ forecast }) {
       <div className="ticket saved-note">
         <p className="ticket-title">Prediction saved</p>
         <p>
-          You predicted <strong>{ticket.choice}</strong> at{" "}
+          You predicted <strong>{ticket.outcome}</strong> at{" "}
           <strong>{ticket.confidence}%</strong> confidence.
         </p>
-        <button type="button" onClick={() => dispatch({ type: "reset" })}>
+        <button type="button" onClick={() => dispatch({ type: "cleared" })}>
           Change prediction
         </button>
       </div>
@@ -47,23 +47,27 @@ export default function PredictionTicket({ forecast }) {
       <fieldset className="choice-group" disabled={saving}>
         <legend>Which way will it go?</legend>
         <div className="choice-row">
-          <label className={ticket.choice === "Yes" ? "choice on" : "choice"}>
+          <label className={ticket.outcome === "Yes" ? "choice on" : "choice"}>
             <input
               type="radio"
-              name="choice"
+              name="outcome"
               value="Yes"
-              checked={ticket.choice === "Yes"}
-              onChange={() => dispatch({ type: "chose_side", choice: "Yes" })}
+              checked={ticket.outcome === "Yes"}
+              onChange={() =>
+                dispatch({ type: "chose_outcome", outcome: "Yes" })
+              }
             />
             Yes
           </label>
-          <label className={ticket.choice === "No" ? "choice on" : "choice"}>
+          <label className={ticket.outcome === "No" ? "choice on" : "choice"}>
             <input
               type="radio"
-              name="choice"
+              name="outcome"
               value="No"
-              checked={ticket.choice === "No"}
-              onChange={() => dispatch({ type: "chose_side", choice: "No" })}
+              checked={ticket.outcome === "No"}
+              onChange={() =>
+                dispatch({ type: "chose_outcome", outcome: "No" })
+              }
             />
             No
           </label>
@@ -80,7 +84,7 @@ export default function PredictionTicket({ forecast }) {
           disabled={saving}
           onChange={(event) =>
             dispatch({
-              type: "set_confidence",
+              type: "changed_confidence",
               confidence: Number(event.target.value),
             })
           }
@@ -93,7 +97,7 @@ export default function PredictionTicket({ forecast }) {
         </p>
       )}
 
-      <button type="submit" disabled={ticket.choice === "" || saving}>
+      <button type="submit" disabled={ticket.outcome === "" || saving}>
         {saving ? "Saving…" : "Save prediction"}
       </button>
     </form>

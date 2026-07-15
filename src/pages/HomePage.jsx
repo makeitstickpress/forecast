@@ -2,7 +2,7 @@ import { useForecasts } from "../hooks";
 import ForecastCard from "../components/ForecastCard";
 
 export default function HomePage() {
-  const { forecasts, status } = useForecasts();
+  const [status, forecasts] = useForecasts();
 
   if (status === "loading") {
     return (

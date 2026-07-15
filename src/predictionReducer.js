@@ -1,25 +1,35 @@
-// Chapter 16: every rule for updating the prediction ticket, in one function.
+// Chapter 16: every rule for updating the prediction ticket, in one function,
+// written as one if-branch per event just like the book's ticketReducer.
 export const initialTicket = {
-  choice: "",
+  outcome: "",
   confidence: 50,
   status: "editing", // "editing" | "saving" | "saved" | "failed"
 };
 
-export function predictionReducer(state, action) {
-  switch (action.type) {
-    case "chose_side":
-      return { ...state, choice: action.choice, status: "editing" };
-    case "set_confidence":
-      return { ...state, confidence: action.confidence, status: "editing" };
-    case "submitted":
-      return { ...state, status: "saving" };
-    case "save_succeeded":
-      return { ...state, status: "saved" };
-    case "save_failed":
-      return { ...state, status: "failed" };
-    case "reset":
-      return initialTicket;
-    default:
-      throw new Error(`Unknown action: ${action.type}`);
+export function predictionReducer(ticket, action) {
+  if (action.type === "chose_outcome") {
+    return { ...ticket, outcome: action.outcome, status: "editing" };
   }
+
+  if (action.type === "changed_confidence") {
+    return { ...ticket, confidence: action.confidence, status: "editing" };
+  }
+
+  if (action.type === "submitted") {
+    return { ...ticket, status: "saving" };
+  }
+
+  if (action.type === "save_succeeded") {
+    return { ...ticket, status: "saved" };
+  }
+
+  if (action.type === "save_failed") {
+    return { ...ticket, status: "failed" };
+  }
+
+  if (action.type === "cleared") {
+    return initialTicket;
+  }
+
+  return ticket;
 }

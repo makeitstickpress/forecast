@@ -16,9 +16,9 @@ export function WatchProvider({ children }) {
   }
 
   return (
-    <WatchContext.Provider value={{ watchedIds, toggleWatch }}>
+    <WatchContext value={{ watchedIds, toggleWatch }}>
       {children}
-    </WatchContext.Provider>
+    </WatchContext>
   );
 }
 
