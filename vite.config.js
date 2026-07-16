@@ -43,27 +43,31 @@ function makeForecasts() {
 
 function mockApi() {
   const forecasts = makeForecasts();
+  const middleware = (req, res, next) => {
+    if (!req.url.startsWith("/api/")) return next();
+    res.setHeader("Content-Type", "application/json");
+    const json = (data, code = 200) => {
+      res.statusCode = code;
+      res.end(JSON.stringify(data));
+    };
+    if (req.url === "/api/forecasts") return json(forecasts);
+    if (req.url.startsWith("/api/forecast/")) {
+      const id = req.url.replace("/api/forecast/", "");
+      const one = forecasts.find((f) => f.id === id);
+      return one ? json(one) : json({ error: "missing" }, 404);
+    }
+    if (req.url === "/api/predict" && req.method === "POST") {
+      return json({ ok: true });
+    }
+    return json({ ok: true });
+  };
   return {
     name: "forecast-mock-api",
     configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        if (!req.url.startsWith("/api/")) return next();
-        res.setHeader("Content-Type", "application/json");
-        const json = (data, code = 200) => {
-          res.statusCode = code;
-          res.end(JSON.stringify(data));
-        };
-        if (req.url === "/api/forecasts") return json(forecasts);
-        if (req.url.startsWith("/api/forecast/")) {
-          const id = req.url.replace("/api/forecast/", "");
-          const one = forecasts.find((f) => f.id === id);
-          return one ? json(one) : json({ error: "missing" }, 404);
-        }
-        if (req.url === "/api/predict" && req.method === "POST") {
-          return json({ ok: true });
-        }
-        return json({ ok: true });
-      });
+      server.middlewares.use(middleware);
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(middleware);
     },
   };
 }
